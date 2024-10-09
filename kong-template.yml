@@ -1,0 +1,137 @@
+_format_version: "2.1"
+
+services:
+  - name: backend
+    url: https://{DOMAIN1}
+    routes:
+      - name: healthcheck
+        paths:
+          - /
+        methods: [GET]
+      - name: login-route
+        paths:
+          - /api/v1/auth/login
+        methods: [POST]
+
+      - name: oauth-route
+        paths:
+          - /api/v1/auth/oauth/:provider
+        methods: [GET]
+
+      - name: callback-route
+        paths:
+          - /api/v1/auth/callback/:provider
+        methods: [GET]
+
+      - name: create-password-route
+        paths:
+          - /api/v1/auth/create_password
+        methods: [POST]
+
+      - name: send-verification-route
+        paths:
+          - /api/v1/auth/send_verification/:use
+        methods: [POST]
+
+      - name: verify-code-route
+        paths:
+          - /api/v1/auth/verify_code/:use
+        methods: [POST]
+
+      - name: refresh-token-route
+        paths:
+          - /api/v1/auth/refresh_token
+        methods: [GET]
+
+      - name: logout-route
+        paths:
+          - /api/v1/auth/logout
+        methods: [DELETE]
+
+      - name: logout-all-route
+        paths:
+          - /api/v1/auth/logout_all
+        methods: [DELETE]
+
+      - name: twofa-login-route
+        paths:
+          - /api/v1/auth/twofa_login
+        methods: [GET]
+
+      - name: get-my-details-route
+        paths:
+          - /api/v1/auth/me
+        methods: [GET]
+
+      - name: add-email-route
+        paths:
+          - /api/v1/auth/add_email
+        methods: [POST]
+
+      - name: generate-2fa-secret-route
+        paths:
+          - /api/v1/auth/generate_2fasecret
+        methods: [GET]
+
+      - name: enable-2fa-route
+        paths:
+          - /api/v1/auth/enable_2fa
+        methods: [GET]
+
+      - name: sensitive-login-route
+        paths:
+          - /api/v1/auth/sensitive_login
+        methods: [GET]
+
+      - name: regenerate-2fa-secret-route
+        paths:
+          - /api/v1/auth/regenerate_2fasecret
+        methods: [GET]
+
+      - name: disable-2fa-route
+        paths:
+          - /api/v1/auth/disable_2fa
+        methods: [DELETE]
+
+      - name: get-2fa-route
+        paths:
+          - /api/v1/auth/get_2fa
+        methods: [GET]
+
+      - name: regenerate-backups-2fa-route
+        paths:
+          - /api/v1/auth/regenerate_backups_2fa
+        methods: [GET]
+
+      - name: get-companies-route
+        paths:
+          - /api/v1/analytics/companies
+        methods: [GET]
+
+      - name: get-company-analytics-route
+        paths:
+          - /api/v1/analytics/company/:index
+        methods: [GET]
+
+      - name: get-my-analytics-route
+        paths:
+          - /api/v1/analytics/me
+        methods: [GET]
+
+upstreams:
+  - name: backend-upstream
+    algorithm: round-robin
+    targets: { targets }
+
+plugins:
+  - name: rate-limiting
+    config:
+      second: 10
+      minute: 100
+
+  - name: proxy-cache
+    config:
+      cache_ttl: 600 # Cache for 10 minutes (600 seconds)
+      strategy: memory
+      content_type: ["application/json"]
+      response_code: [200]

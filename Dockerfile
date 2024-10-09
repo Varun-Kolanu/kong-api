@@ -1,22 +1,15 @@
-# Use Kong image as base image
-FROM kong/kong-gateway:3.8.0.0
+FROM kong:latest
 
-# Set environment variables
 ENV KONG_DATABASE=off
-ENV KONG_DECLARATIVE_CONFIG=/kong/declarative/kong.yml
+ENV KONG_DECLARATIVE_CONFIG=/etc/kong/kong.yml
 ENV KONG_PROXY_ACCESS_LOG=/dev/stdout
 ENV KONG_PROXY_ERROR_LOG=/dev/stderr
+ENV KONG_PROXY_CONNECT_TIMEOUT=240000
+ENV KONG_PROXY_SEND_TIMEOUT=240000
+ENV KONG_PROXY_READ_TIMEOUT=240000
 
-# Create the declarative config directory
-USER root
-RUN mkdir -p /kong/declarative
+COPY ./kong.yml /etc/kong/kong.yml
 
-# Copy the kong.yml configuration file into the container
-COPY ./kong.yml /kong/declarative/kong.yml
-USER kong
-
-# Expose the necessary port
 EXPOSE 8000
 
-# Command to start Kong
-CMD ["kong", "reload", "start"]
+CMD ["kong", "docker-start"]
