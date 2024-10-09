@@ -1,5 +1,9 @@
 FROM kong:alpine
 
+# USER root
+# RUN apk add --no-cache gettext
+# USER kong
+
 ENV KONG_DATABASE=off
 ENV KONG_DECLARATIVE_CONFIG=/etc/kong/kong.yml
 ENV KONG_PROXY_ACCESS_LOG=/dev/stdout
@@ -15,3 +19,4 @@ COPY ./kong.yml /etc/kong/kong.yml
 EXPOSE 8000
 
 CMD ["kong", "docker-start"]
+# CMD ["sh", "-c", "envsubst < /etc/kong/kong-template.yml > /etc/kong/kong.yml && kong start"]
