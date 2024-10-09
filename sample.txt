@@ -1,0 +1,14 @@
+# Switch to root user for setup
+# USER root
+
+# RUN echo "KONG_DATABASE=off" > /usr/local/kong/.kong_env \
+#     && echo "KONG_DECLARATIVE_CONFIG=/kong.yml" >> /usr/local/kong/.kong_env \
+#     && echo "KONG_PROXY_ACCESS_LOG=/dev/stdout" >> /usr/local/kong/.kong_env \
+#     && echo "KONG_PROXY_ERROR_LOG=/dev/stderr" >> /usr/local/kong/.kong_env \
+#     && chown -R kong:kong /usr/local/kong
+
+# # Set KONG_PREFIX to use the correct directory
+# # ENV KONG_PREFIX=/usr/local/kong
+
+# # Switch back to Kong user for the rest of the setup
+# USER kong

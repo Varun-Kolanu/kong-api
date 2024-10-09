@@ -1,0 +1,12 @@
+services:
+  kong:
+    image: kong:latest
+    environment:
+      KONG_DATABASE: off
+      KONG_DECLARATIVE_CONFIG: /kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./kong.yml:/kong.yml
