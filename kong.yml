@@ -2,7 +2,7 @@ _format_version: "2.1"
 
 services:
   - name: backend
-    url: https://bizsights-backend.onrender.com
+    host: backend-upstream
     routes:
       - name: healthcheck
         paths:
@@ -122,9 +122,9 @@ upstreams:
   - name: backend-upstream
     algorithm: round-robin
     targets:
-      - target: bizsights-backend.onrender.com
-      - target: bizsights-backend2.onrender.com
-      - target: bizsights-backend3.onrender.com
+      - target: bizsights-backend.onrender.com:80
+      - target: bizsights-backend2.onrender.com:80
+      - target: bizsights-backend3.onrender.com:80
 # plugins:
 # - name: rate-limiting
 #   config:
